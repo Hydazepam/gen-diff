@@ -3,8 +3,9 @@ const path = require('path');
 const _ = require('lodash');
 
 const genDiff = (pathToFile1, pathToFile2) => {
-  const absolutePathToFileBefore = path.resolve('/Users/akadem/Documents/GitHub/frontend-project-lvl2/__tests__/', pathToFile1);
-  const absolutePathToFileAfter = path.resolve('/Users/akadem/Documents/GitHub/frontend-project-lvl2/__tests__/', pathToFile2);
+  const absolutePathToFileBefore = path.resolve('./__tests__/', pathToFile1);
+  const absolutePathToFileAfter = path.resolve('./__tests__/', pathToFile2);
+
 
   const fileDataBefore = fs.readFileSync(absolutePathToFileBefore, 'utf-8');
   const fileDataAfter = fs.readFileSync(absolutePathToFileAfter, 'utf-8');

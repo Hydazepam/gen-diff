@@ -10,10 +10,12 @@ $ gendiff before.json after.json
 
 ##### Запуск (step5)
 ```
-$ gendiff before.json after.json
-
-$ gendiff before.ini after.ini
-
 $ gendiff before.yaml after.yaml
 ```
-[![asciicast](https://asciinema.org/a/VNEAEkMcO1iW5GJgOPqJLnyQU.svg)](https://asciinema.org/a/VNEAEkMcO1iW5GJgOPqJLnyQU)
+[![asciicast](https://asciinema.org/a/zBxArtOU8H8crjmyYcN42UWoi.svg)](https://asciinema.org/a/zBxArtOU8H8crjmyYcN42UWoi)
+
+##### Запуск (step6)
+```
+$ gendiff before.ini after.ini
+```
+[![asciicast](https://asciinema.org/a/3ZZFl6tf2AHazPieeRhR9y5hT.svg)](https://asciinema.org/a/3ZZFl6tf2AHazPieeRhR9y5hT)

@@ -1,5 +1,5 @@
-const yaml = require('js-yaml');
-const ini = require('ini');
+import yaml from 'js-yaml';
+import ini from 'ini';
 
 const typeOfFilesList = {
   '.json': JSON.parse,
@@ -10,9 +10,6 @@ const typeOfFilesList = {
 
 const getParser = (format) => (data) => {
   const parseFunc = typeOfFilesList[format];
-  if (!parseFunc) {
-    throw new Error(`unkown format: ${format}`);
-  }
   return parseFunc(data);
 };
 

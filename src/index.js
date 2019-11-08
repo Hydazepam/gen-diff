@@ -1,43 +1,46 @@
+import fs from 'fs';
+import path from 'path';
+import _ from 'lodash';
 import getParser from './parsers';
+import getRenderer from './renderers';
 
-const fs = require('fs');
-const path = require('path');
-const _ = require('lodash');
-
-const genDiff = (pathToFile1, pathToFile2) => {
-  const absolutePathToFileBefore = path.resolve('./__tests__/__fixtures__/', pathToFile1);
-  const absolutePathToFileAfter = path.resolve('./__tests__/__fixtures__/', pathToFile2);
-
-  const fileDataBefore = fs.readFileSync(absolutePathToFileBefore, 'utf-8');
-  const fileDataAfter = fs.readFileSync(absolutePathToFileAfter, 'utf-8');
-
-  const objBefore = getParser(path.extname(pathToFile1))(fileDataBefore);
-  const objAfter = getParser(path.extname(pathToFile2))(fileDataAfter);
-
+const getAst = (objBefore, objAfter) => {
   const beforeKeys = Object.keys(objBefore);
   const afterKeys = Object.keys(objAfter);
 
   const totalKeys = _.union(beforeKeys, afterKeys);
 
-  const result = totalKeys.reduce((acc, el) => {
-    if (objBefore[el] === objAfter[el]) {
-      acc.push(`  ${el}: ${objBefore[el]}`);
+  const result = totalKeys.reduce((acc, key) => {
+    if (_.has(objAfter, key) && _.has(objBefore, key)) {
+      if (objAfter[key] instanceof Object && objBefore[key] instanceof Object) {
+        return [...acc, { type: 'nested', key, children: getAst(objBefore[key], objAfter[key]) }];
+      }
+      if (objAfter[key] === objBefore[key]) {
+        return [...acc, { type: 'fixed', key, children: objAfter[key] }];
+      }
+      return [...acc, {
+        type: 'updated', key, valueBefore: objBefore[key], valueAfter: objAfter[key],
+      }];
     }
-    if (objBefore[el] !== objAfter[el]) {
-      if (!objAfter[el]) {
-        acc.push(`- ${el}: ${objBefore[el]}`);
-      }
-      if (!objBefore[el] && objAfter[el]) {
-        acc.push(`+ ${el}: ${objAfter[el]}`);
-      }
-      if (objBefore[el] && objAfter[el]) {
-        acc.push(`+ ${el}: ${objAfter[el]}`);
-        acc.push(`- ${el}: ${objBefore[el]}`);
-      }
+    if (_.has(objAfter, key) && !_.has(objBefore, key)) {
+      return [...acc, { type: 'added', key, valueAfter: objAfter[key] }];
     }
-    return acc;
+    return [...acc, { type: 'deleted', key, valueBefore: objBefore[key] }];
   }, []);
-  return `{\n  ${result.join('\n  ')}\n}`;
+
+  return result;
+};
+
+const genDiff = (pathToFile1, pathToFile2) => {
+  const fileDataBefore = fs.readFileSync(pathToFile1, 'utf-8');
+  const fileDataAfter = fs.readFileSync(pathToFile2, 'utf-8');
+
+  const objBefore = getParser(path.extname(pathToFile1))(fileDataBefore);
+  const objAfter = getParser(path.extname(pathToFile2))(fileDataAfter);
+
+  const ast = getAst(objBefore, objAfter);
+
+  return getRenderer(ast);
 };
 
 export default genDiff;

@@ -2,10 +2,10 @@ import fs from 'fs';
 import genDiff from '../src';
 
 describe('Simple files', () => {
-  test.each([['./before.json', './after.json', './__tests__/__fixtures__/compareResult.txt'],
-    ['./before.yaml', './after.yaml', './__tests__/__fixtures__/compareResult.txt'],
-    ['./before.ini', './after.ini', './__tests__/__fixtures__/compareResult.txt']])(
-    'compare two simple config files',
+  test.each([['./__tests__/__fixtures__/nestedBefore.json', './__tests__/__fixtures__/nestedAfter.json', './__tests__/__fixtures__/compareResultNested.txt'],
+    ['./__tests__/__fixtures__/nestedBefore.yaml', './__tests__/__fixtures__/nestedAfter.yaml', './__tests__/__fixtures__/compareResultNested.txt'],
+    ['./__tests__/__fixtures__/nestedBefore.ini', './__tests__/__fixtures__/nestedAfter.ini', './__tests__/__fixtures__/compareResultNested.txt']])(
+    'compare two nested json config files',
     (path1, path2, resultPath) => {
       const diff = genDiff(path1, path2);
       const result = fs.readFileSync(resultPath, 'utf-8');

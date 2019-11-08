@@ -19,3 +19,9 @@ $ gendiff before.yaml after.yaml
 $ gendiff before.ini after.ini
 ```
 [![asciicast](https://asciinema.org/a/3ZZFl6tf2AHazPieeRhR9y5hT.svg)](https://asciinema.org/a/3ZZFl6tf2AHazPieeRhR9y5hT)
+
+##### Запуск (step7)
+```
+$ gendiff nestedBefore.json nestedAfter.json
+```
+[![asciicast](https://asciinema.org/a/iyLByt9m7y9WPpHSV6OhnHRGK.svg)](https://asciinema.org/a/iyLByt9m7y9WPpHSV6OhnHRGK)

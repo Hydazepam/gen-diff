@@ -25,3 +25,9 @@ $ gendiff before.ini after.ini
 $ gendiff nestedBefore.json nestedAfter.json
 ```
 [![asciicast](https://asciinema.org/a/iyLByt9m7y9WPpHSV6OhnHRGK.svg)](https://asciinema.org/a/iyLByt9m7y9WPpHSV6OhnHRGK)
+
+##### Запуск (step8)
+```
+$ gendiff  --format plain nestedBefore.json nestedAfter.json
+```
+[![asciicast](https://asciinema.org/a/v8y8LJBxqQc6r4bHkn2z2XXfC.svg)](https://asciinema.org/a/v8y8LJBxqQc6r4bHkn2z2XXfC)

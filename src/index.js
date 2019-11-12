@@ -31,7 +31,7 @@ const getAst = (objBefore, objAfter) => {
   return result;
 };
 
-const genDiff = (pathToFile1, pathToFile2) => {
+const genDiff = (pathToFile1, pathToFile2, format) => {
   const fileDataBefore = fs.readFileSync(pathToFile1, 'utf-8');
   const fileDataAfter = fs.readFileSync(pathToFile2, 'utf-8');
 
@@ -40,7 +40,7 @@ const genDiff = (pathToFile1, pathToFile2) => {
 
   const ast = getAst(objBefore, objAfter);
 
-  return getRenderer(ast);
+  return getRenderer(format)(ast);
 };
 
 export default genDiff;

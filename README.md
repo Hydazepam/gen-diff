@@ -31,3 +31,9 @@ $ gendiff nestedBefore.json nestedAfter.json
 $ gendiff  --format plain nestedBefore.json nestedAfter.json
 ```
 [![asciicast](https://asciinema.org/a/v8y8LJBxqQc6r4bHkn2z2XXfC.svg)](https://asciinema.org/a/v8y8LJBxqQc6r4bHkn2z2XXfC)
+
+##### Запуск (step9)
+```
+$ gendiff  --format json nestedBefore.json nestedAfter.json
+```
+[![asciicast](https://asciinema.org/a/ZhwIqWwCiocs5FJOmf9SRGcGv.svg)](https://asciinema.org/a/ZhwIqWwCiocs5FJOmf9SRGcGv)

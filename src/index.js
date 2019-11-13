@@ -31,7 +31,7 @@ const getAst = (objBefore, objAfter) => {
   return result;
 };
 
-const genDiff = (pathToFile1, pathToFile2, format) => {
+const genDiff = (pathToFile1, pathToFile2, format = 'nested') => {
   const fileDataBefore = fs.readFileSync(pathToFile1, 'utf-8');
   const fileDataAfter = fs.readFileSync(pathToFile2, 'utf-8');
 

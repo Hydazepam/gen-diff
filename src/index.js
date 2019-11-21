@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
 import getParser from './parsers';
-import getRenderer from './renderers';
+import getRenderer from './formatters/index';
 
 const getAst = (objBefore, objAfter) => {
   const beforeKeys = Object.keys(objBefore);
@@ -10,37 +10,41 @@ const getAst = (objBefore, objAfter) => {
 
   const totalKeys = _.union(beforeKeys, afterKeys);
 
-  const result = totalKeys.reduce((acc, key) => {
+  const result = totalKeys.map((key) => {
     if (_.has(objAfter, key) && _.has(objBefore, key)) {
       if (objAfter[key] instanceof Object && objBefore[key] instanceof Object) {
-        return [...acc, { type: 'nested', key, children: getAst(objBefore[key], objAfter[key]) }];
+        return { type: 'nested', key, children: getAst(objBefore[key], objAfter[key]) };
       }
       if (objAfter[key] === objBefore[key]) {
-        return [...acc, { type: 'fixed', key, children: objAfter[key] }];
+        return { type: 'same', key, children: objAfter[key] };
       }
-      return [...acc, {
+      return {
         type: 'updated', key, valueBefore: objBefore[key], valueAfter: objAfter[key],
-      }];
+      };
     }
     if (_.has(objAfter, key) && !_.has(objBefore, key)) {
-      return [...acc, { type: 'added', key, valueAfter: objAfter[key] }];
+      return { type: 'added', key, valueAfter: objAfter[key] };
     }
-    return [...acc, { type: 'deleted', key, valueBefore: objBefore[key] }];
-  }, []);
+    return { type: 'deleted', key, valueBefore: objBefore[key] };
+  });
 
   return result;
 };
 
-const genDiff = (pathToFile1, pathToFile2, format = 'nested') => {
-  const fileDataBefore = fs.readFileSync(pathToFile1, 'utf-8');
-  const fileDataAfter = fs.readFileSync(pathToFile2, 'utf-8');
+const getObject = (pathToFile) => {
+  const file = fs.readFileSync(pathToFile, 'utf-8');
+  const fileFormat = path.extname(pathToFile).split('.')[1];
 
-  const objBefore = getParser(path.extname(pathToFile1))(fileDataBefore);
-  const objAfter = getParser(path.extname(pathToFile2))(fileDataAfter);
+  return getParser(file, fileFormat);
+};
+
+const genDiff = (pathToFile1, pathToFile2, format = 'nested') => {
+  const objBefore = getObject(pathToFile1);
+  const objAfter = getObject(pathToFile2);
 
   const ast = getAst(objBefore, objAfter);
 
-  return getRenderer(format)(ast);
+  return getRenderer(ast, format);
 };
 
 export default genDiff;

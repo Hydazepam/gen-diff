@@ -17,7 +17,7 @@ const createString = (name, value, depth, sign = ' ') => {
 const getNestedDif = (ast) => {
   const iter = (nodes, depth) => {
     const mapping = {
-      fixed: ({ key, children }) => createString(key, children, depth + 1),
+      same: ({ key, children }) => createString(key, children, depth + 1),
       updated: ({ key, valueBefore, valueAfter }) => [createString(key, valueAfter, depth + 1, '+'), createString(key, valueBefore, depth + 1, '-')],
       deleted: ({ key, valueBefore }) => createString(key, valueBefore, depth + 1, '-'),
       added: ({ key, valueAfter }) => createString(key, valueAfter, depth + 1, '+'),

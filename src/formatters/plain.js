@@ -13,7 +13,7 @@ const renderValue = (value) => {
 const getPlainDiff = (ast) => {
   const iter = (nodes, parents) => {
     const mapping = {
-      fixed: () => null,
+      same: () => null,
       updated: ({
         key, type, valueBefore, valueAfter,
       }) => `${createString(parents, key, type)}. From ${renderValue(valueBefore)} to ${renderValue(valueAfter)}`,

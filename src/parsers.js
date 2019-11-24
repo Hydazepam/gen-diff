@@ -7,6 +7,6 @@ const parsers = {
   ini: ini.parse,
 };
 
-const getParser = (file, fileFormat) => parsers[fileFormat](file);
+const getParser = (data, dataFormat) => parsers[dataFormat](data);
 
 export default getParser;

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
 import getParser from './parsers';
-import getRenderer from './formatters/index';
+import getRenderer from './formatters';
 
 const getAst = (objBefore, objAfter) => {
   const beforeKeys = Object.keys(objBefore);
@@ -32,10 +32,10 @@ const getAst = (objBefore, objAfter) => {
 };
 
 const getObject = (pathToFile) => {
-  const file = fs.readFileSync(pathToFile, 'utf-8');
-  const fileFormat = path.extname(pathToFile).split('.')[1];
+  const data = fs.readFileSync(pathToFile, 'utf-8');
+  const dataFormat = path.extname(pathToFile).split('.')[1];
 
-  return getParser(file, fileFormat);
+  return getParser(data, dataFormat);
 };
 
 const genDiff = (pathToFile1, pathToFile2, format = 'nested') => {

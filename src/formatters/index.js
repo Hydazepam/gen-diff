@@ -1,11 +1,10 @@
 import getNestedDif from './nested';
 import getPlainDiff from './plain';
-import getJsonDif from './json';
 
 const renders = {
   nested: getNestedDif,
   plain: getPlainDiff,
-  json: getJsonDif,
+  json: JSON.stringify,
 };
 
 const getRenderer = (ast, format) => renders[format](ast);

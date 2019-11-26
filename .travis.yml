@@ -1,25 +1,21 @@
 ---
 
 language: node_js
-
 node_js:
   - node
-dist: trusty
-addons:
-  chrome: stable
+
+env:
+  global:
+    - CC_TEST_REPORTER_ID=<521e79cc7ff7d46b8994a443e67b640f9cd16825fb83d56c547b595c62ab6182>
+
 before_script:
-  - yarn global add nyc
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 
 script:
-  - nyc --reporter=lcov npm run unit
   - make lint
-  - make test
+  - make test-coverage
 
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-
-notifications:
-  email: false
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT 

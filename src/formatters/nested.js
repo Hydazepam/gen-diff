@@ -14,7 +14,7 @@ const createString = (name, value, depth, sign = ' ') => {
   ]).join('\n');
 };
 
-const getNestedDif = (ast) => {
+const getNestedDiff = (ast) => {
   const iter = (nodes, depth) => {
     const mapping = {
       same: ({ key, children }) => createString(key, children, depth + 1),
@@ -32,4 +32,4 @@ const getNestedDif = (ast) => {
   return `{\n${iter(ast, 0)}\n}`;
 };
 
-export default getNestedDif;
+export default getNestedDiff;
